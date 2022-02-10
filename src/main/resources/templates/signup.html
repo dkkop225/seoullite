@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>signup page</title>
+</head>
+<body>
+<h1>회원가입 페이지</h1>
+<form th:action="@{/user/join}" method="POST">
+    <div class="register">
+        <h3>회원가입</h3>
+            <div class="flex">
+                <ul class="container">
+                    <li class="item center">
+                        이름
+                    </li>
+                    <li class="item">
+                        <input type="text" name="userName" autofocus required>
+                    </li>
+                    <li class="item">
+
+                    </li>
+                </ul>
+                <ul class="container">
+                    <li class="item center">
+                        아이디
+                    </li>
+                    <li class="item">
+                        <input type="text" name="userId" placeholder="아이디를 입력하세요." required>
+                    </li>
+                    <li class="item">
+                        <button class="idcheck">중복확인</button>
+                    </li>
+                </ul>
+                <ul class="container">
+                    <li class="item center">
+                        비밀번호
+                    </li>
+                    <li class="item">
+                        <input type="password" name="password" placeholder="비밀번호를 입력하세요." required>
+                    </li>
+                    <li class="item">
+
+                    </li>
+                </ul>
+                <ul class="container">
+                    <li class="item center">
+                        비밀번호 확인
+                    </li>
+                    <li class="item">
+                        <input type="password" placeholder="비밀번호를 입력하세요." required>
+                    </li>
+                    <li class="item">
+
+                    </li>
+                </ul>
+                <ul class="container">
+                    <li class="item center">
+                        이메일
+                    </li>
+                    <li class="item">
+                        <input type="text" name="email" placeholder="휴대전화번호">
+                    </li>
+                    <li class="item">
+
+                    </li>
+                </ul>
+                <ul class="container">
+                    <li class="item center">
+
+                    </li>
+                    <li class="item">
+                        <button class="submit">가입하기</button>
+                    </li>
+                    <li class="item">
+
+                    </li>
+                </ul>
+            </div>
+    </div>
+</form> <br>
+
+<a href="/login">로그인 하기 -></a>
+</body>
+</html>
