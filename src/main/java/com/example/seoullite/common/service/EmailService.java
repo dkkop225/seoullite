@@ -1,7 +1,9 @@
 package com.example.seoullite.common.service;
 
+import java.io.IOException;
+
 public interface EmailService {
 
-    void sendMail(String to);
+    void sendMail(String to) throws IOException;
 
 }
