@@ -1,5 +1,7 @@
 package com.example.seoullite.common.service;
 
+import com.example.seoullite.common.util.RedisUtil;
+import com.example.seoullite.user.model.User;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -13,24 +15,26 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class EmailServiceImpl implements EmailService {
     @Autowired
-    private JavaMailSender emailSender;
+    private RedisUtil redisUtil;
 
     @Override
-    public void sendMail(String to) throws IOException {
+    public void sendMail(User user) throws IOException {
 
         Email from = new Email("dkkdev225@gmail.com");
-        Email toEmail = new Email(to);
+        Email toEmail = new Email(user.getEmail());
         String subject = "Seoullite SendGrid Test";
 
-        Content content = new Content("text/plain", "Seoullite SendGrid Test contents");
+        String key = UUID.randomUUID().toString();
+
+        Content content = new Content("text/plain", "<h1>[이메일 인증]</h1> <p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p> ");
         Mail mail = new Mail(from, subject, toEmail, content);
 
-        //SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid("");
         Request request = new Request();
         try {
             request.setMethod(Method.POST);
@@ -40,41 +44,16 @@ public class EmailServiceImpl implements EmailService {
             System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
+
+
+            if(response.getStatusCode() == 202) {
+                redisUtil.setDataExpireMinute(key,user,10);
+            }
+
         } catch (IOException ex) {
             throw ex;
         }
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(to);
-//        message.setSubject("sub");
-//        message.setText("text");
-//        emailSender.send(message);
+
     }
 }
 
-//
-//import com.sendgrid.*;
-//        import java.io.IOException;
-//
-//public class Example {
-//    public static void main(String[] args) throws IOException {
-//        Email from = new Email("test@example.com");
-//        String subject = "Sending with Twilio SendGrid is Fun";
-//        Email to = new Email("test@example.com");
-//        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
-//        Mail mail = new Mail(from, subject, to, content);
-//
-//        SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
-//        Request request = new Request();
-//        try {
-//            request.setMethod(Method.POST);
-//            request.setEndpoint("mail/send");
-//            request.setBody(mail.build());
-//            Response response = sg.api(request);
-//            System.out.println(response.getStatusCode());
-//            System.out.println(response.getBody());
-//            System.out.println(response.getHeaders());
-//        } catch (IOException ex) {
-//            throw ex;
-//        }
-//    }
-//}

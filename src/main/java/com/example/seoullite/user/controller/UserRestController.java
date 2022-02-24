@@ -2,10 +2,13 @@ package com.example.seoullite.user.controller;
 
 import com.example.seoullite.common.service.EmailService;
 import com.example.seoullite.user.model.User;
+import com.example.seoullite.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/user")
@@ -14,11 +17,24 @@ public class UserRestController {
     @Autowired
     EmailService emailService;
 
-    @PostMapping("/join")
-    public String join( User user){
+    @Autowired
+    UserService userService;
 
-        emailService.sendMail(user.getEmail());
+    @PostMapping("/join")
+    public String join( User user) throws IOException {
+
+        emailService.sendMail(user);
 
         return "null";
     }
+
+    @GetMapping("signup/confirm")
+    public void signupConfirm(@RequestParam("key")String key, HttpServletResponse response) throws IOException, TimeoutException {
+
+        userService.registerUser(key);
+
+        response.sendRedirect("http://localhost:8080/");
+    }
+
+
 }
