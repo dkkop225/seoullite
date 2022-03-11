@@ -28,12 +28,11 @@ public class UserRestController {
         return "null";
     }
 
-    @GetMapping("signup/confirm")
+    @GetMapping("/signup/confirm")
     public void signupConfirm(@RequestParam("key")String key, HttpServletResponse response) throws IOException, TimeoutException {
-
         userService.registerUser(key);
 
-        response.sendRedirect("http://localhost:8080/");
+        response.sendRedirect("http://localhost:8080/login");
     }
 
 

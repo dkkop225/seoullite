@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
     private final StringRedisTemplate stringRedisTemplate;
 
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -42,9 +43,19 @@ public class RedisUtil {
         redisTemplate.opsForValue().set(key, o, minutes, TimeUnit.MINUTES);
     }
 
+
+    public void setDataExpire(String key,String value,int minutes){
+        //ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
+        //Duration expireDuration = Duration.ofSeconds(duration);
+        redisTemplate.opsForValue().set(key, value, minutes, TimeUnit.MINUTES);
+       // valueOperations.set(key,value,expireDuration);
+    }
+
     public Object get(String key) {
+        System.out.println("@#@#@@#"+stringRedisTemplate.opsForValue().get(key));
         return redisTemplate.opsForValue().get(key);
     }
+
 
     public boolean delete(String key) {
         return redisTemplate.delete(key);

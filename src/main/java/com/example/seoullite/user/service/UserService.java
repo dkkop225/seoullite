@@ -17,7 +17,6 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void registerUser(String key) throws TimeoutException {
-
         User user = (User)redisUtil.get(key);
 
         if(user== null) {
